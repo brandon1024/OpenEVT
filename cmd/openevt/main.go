@@ -2,58 +2,21 @@ package main
 
 import (
 	"context"
-	"flag"
 	"log/slog"
 	"os"
-	"time"
+	"os/signal"
+	"syscall"
 
-	"golang.org/x/sync/errgroup"
-
-	"github.com/brandon1024/OpenEVT/internal/evt"
-	"github.com/brandon1024/OpenEVT/internal/web"
+	"github.com/brandon1024/cmder"
 )
 
 func main() {
-	var (
-		webListenAddress       string
-		telemetryPath          string
-		disableExporterMetrics bool
-		reconnectInverval      time.Duration
-	)
+	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 
-	client := &evt.Client{}
+	err := cmder.Execute(ctx, cmd, cmder.WithEnvironmentBinding())
+	cancel()
 
-	// setup logging
-	loggerLevel := new(slog.LevelVar)
-	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
-		Level: loggerLevel,
-	}))
-	slog.SetDefault(logger)
-
-	// define flags
-	flag.StringVar(&client.InverterID, "serial-number", "", "serial number of your microinverter (e.g. 31583078)")
-	flag.StringVar(&client.Address, "addr", "", "address and port of the microinverter (e.g. 192.0.2.1:14889)")
-	flag.DurationVar(&client.ReadTimeout, "poll-interval", time.Duration(0), "attempt to poll the inverter status more frequently than advertised")
-	flag.DurationVar(&reconnectInverval, "reconnect-interval", time.Minute, "interval between connection attempts (e.g. 1m)")
-
-	flag.StringVar(&webListenAddress, "web.listen-address", ":9090", "address on which to expose metrics")
-	flag.StringVar(&telemetryPath, "web.telemetry-path", "/metrics", "path under which to expose metrics")
-	flag.BoolVar(&disableExporterMetrics, "web.disable-exporter-metrics", false, "exclude metrics about the exporter itself (go_*)")
-
-	flag.TextVar(loggerLevel, "log.level", new(slog.LevelVar), "log level (e.g. debug, info, warn, error)")
-
-	flag.Parse()
-
-	// launch
-	grp, ctx := errgroup.WithContext(context.Background())
-	grp.Go(func() error {
-		return inverterConnect(ctx, client, reconnectInverval)
-	})
-	grp.Go(func() error {
-		return web.ListenAndServe(ctx, webListenAddress, telemetryPath, disableExporterMetrics)
-	})
-
-	if err := grp.Wait(); err != nil {
+	if err != nil {
 		slog.Error("error caught - shutting down", "err", err)
 		os.Exit(1)
 	}

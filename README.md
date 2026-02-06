@@ -277,4 +277,4 @@ implementation from
 
 ## License
 
-MIT License. Copyright (c) 2022 Brandon Richardson.
+MIT License. Copyright (c) 2025 Brandon Richardson.
