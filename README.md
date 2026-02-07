@@ -141,23 +141,43 @@ To show usage information, use the `--help` flag:
 
 ```shell
 $ openevt --help
-Usage of openevt:
-  -addr string
-        address and port of the microinverter (e.g. 192.0.2.1:14889)
-  -log.level value
-        log level (e.g. debug, info, warn, error) (default INFO)
-  -poll-interval duration
-        attempt to poll the inverter status more frequently than advertised
-  -reconnect-interval duration
-        interval between connection attempts (e.g. 1m) (default 1m0s)
-  -serial-number string
-        serial number of your microinverter (e.g. 31583078)
-  -web.disable-exporter-metrics
-        exclude metrics about the exporter itself (go_*)
-  -web.listen-address string
-        address on which to expose metrics (default ":9090")
-  -web.telemetry-path string
-        path under which to expose metrics (default "/metrics")
+Usage:
+  openevt --addr <addr> --serial-number <num>
+
+Examples:
+  # connect to inverter and listen on port 9090
+  openevt --addr 192.168.2.54:14889 --serial-number 31583078
+
+  # connect to inverter and listen on another port
+  openevt --addr 192.168.2.54:14889 --serial-number 31583078 --web.listen-address :8080
+
+Flags:
+  -a <address>, --addr=<address>
+      address and port of the microinverter (e.g. 192.0.2.1:14889)
+
+  -h, --help (default false)
+      show command help and usage information
+
+  --log.level=<level> (default INFO)
+      log level (e.g. debug, info, warn, error)
+
+  --poll-interval=<duration> (default 0s)
+      attempt to poll the inverter status more frequently than advertised
+
+  --reconnect-interval=<duration> (default 1m0s)
+      interval between connection attempts (e.g. 1m)
+
+  -s <serial>, --serial-number=<serial>
+      serial number of your microinverter (e.g. 31583078)
+
+  --web.disable-exporter-metrics (default false)
+      exclude metrics about the exporter itself (go_*)
+
+  --web.listen-address=<address> (default :9090)
+      address on which to expose metrics
+
+  --web.telemetry-path=<path> (default /metrics)
+      path under which to expose metrics
 ```
 
 ### Finding your Inverter on the LAN
