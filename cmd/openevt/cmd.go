@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log/slog"
 	"os"
 	"time"
@@ -91,6 +92,16 @@ func (c *Command) InitializeFlags(fs *flag.FlagSet) {
 }
 
 func (c *Command) Run(ctx context.Context, args []string) error {
+	if len(args) != 0 {
+		return fmt.Errorf("unexpected args: %v", args)
+	}
+	if c.client.InverterID == "" {
+		return fmt.Errorf("serial number required")
+	}
+	if c.client.Address == "" {
+		return fmt.Errorf("inverter address required")
+	}
+
 	// setup logger
 	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
 		Level: loggerLevel,

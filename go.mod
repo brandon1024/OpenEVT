@@ -10,7 +10,7 @@ tool (
 )
 
 require (
-	github.com/brandon1024/cmder v0.0.6
+	github.com/brandon1024/cmder v0.0.7
 	github.com/prometheus/client_golang v1.23.0
 	golang.org/x/sync v0.16.0
 )
