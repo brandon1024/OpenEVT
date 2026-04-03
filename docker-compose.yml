@@ -1,6 +1,9 @@
 services:
   openevt:
     image: mrwiora/openevt:latest
+    # To build the image locally instead of using the pre-built image,
+    # comment out 'image' above and uncomment the following:
+    # build: .
     ports:
       - "9090:9090"
     environment:
