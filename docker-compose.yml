@@ -1,0 +1,8 @@
+services:
+  openevt:
+    image: mrwiora/openevt:latest
+    ports:
+      - "9090:9090"
+    environment:
+      - OPENEVT_ADDR={{ IP ADDR }}:{{ PORT }}
+      - OPENEVT_SERIALNUMBER={{ SERIAL }}
