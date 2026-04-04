@@ -32,8 +32,6 @@ jobs:
           images: mrwiora/openevt
           tags: |
             type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest
 
       - name: Build and push
         uses: docker/build-push-action@v7
