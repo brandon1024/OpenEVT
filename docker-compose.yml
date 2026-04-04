@@ -1,0 +1,5 @@
+services:
+  openevt:
+    build: .
+    ports:
+      - "9090:9090"

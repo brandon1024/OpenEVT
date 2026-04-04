@@ -53,6 +53,17 @@ OpenEVT won't be able to connect during the night.
 $ openevt --addr 192.168.2.54:14889 --serial-number 31583078
 ```
 
+### Docker Compose
+
+Alternatively, you can use the provided `docker-compose.yml`. Copy the sample
+environment file and update it with your inverter's address and serial number:
+
+```shell
+$ cp .env.sample .env
+$ vi .env  # update OPENEVT_ADDR and OPENEVT_SERIALNUMBER
+$ docker compose up -d
+```
+
 To read inverter status:
 
 ```shell
