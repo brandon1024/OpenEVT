@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -15,6 +16,10 @@ func main() {
 
 	err := cmder.Execute(ctx, cmd, cmder.WithEnvironmentBinding())
 	cancel()
+
+	if errors.Is(err, cmder.ErrShowHelp) || errors.Is(err, cmder.ErrShowUsage) {
+		return
+	}
 
 	if err != nil {
 		slog.Error("error caught - shutting down", "err", err)

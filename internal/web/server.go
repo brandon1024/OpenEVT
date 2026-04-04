@@ -35,7 +35,14 @@ func ListenAndServe(ctx context.Context, addr, path string, disableExporterMetri
 }
 
 func GetInverter(w http.ResponseWriter, req *http.Request) {
+	status := get()
+
+	if status == nil {
+		http.Error(w, "inverter status currently unavailable", http.StatusServiceUnavailable)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 
-	json.NewEncoder(w).Encode(get())
+	json.NewEncoder(w).Encode(status)
 }
