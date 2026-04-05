@@ -79,11 +79,11 @@ var (
 )
 
 var (
-	inverter    types.InverterStatus
+	inverter    *types.InverterStatus
 	inverterMux sync.RWMutex
 )
 
-func get() types.InverterStatus {
+func get() *types.InverterStatus {
 	inverterMux.RLock()
 	defer inverterMux.RUnlock()
 
@@ -94,7 +94,7 @@ func set(status types.InverterStatus) {
 	inverterMux.Lock()
 	defer inverterMux.Unlock()
 
-	inverter = status
+	inverter = &status
 }
 
 func UpdateConnectionStatus(addr, sn string, status float64) {

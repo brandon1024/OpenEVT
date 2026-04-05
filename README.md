@@ -1,4 +1,4 @@
-# OpenEVT ☀️ Envertec EVT400/EVT800 Client ⚡
+# OpenEVT ☀️ Envertec Client ⚡
 
 Take control of your solar energy monitoring with OpenEVT!
 
@@ -26,14 +26,6 @@ OpenEVT is known to work with the following Envertec inverters:
 
 <img src="./.github/screenshots/home-assistant-landscape.png">
 
-## Install
-
-To install OpenEVT (Go 1.21+):
-
-```shell
-$ go install https://github.com/brandon1024/OpenEVT/cmd/openevt@latest
-```
-
 ## Usage
 
 To connect to your microinverter, you need:
@@ -49,8 +41,19 @@ Parameter Settings`.
 The inverter enters a low-power standby mode when there's no sunlight, so
 OpenEVT won't be able to connect during the night.
 
+### Bare Metal
+
+To install and run `openevt` locally, you will need the Go compiler.
+
 ```shell
+$ go install github.com/brandon1024/OpenEVT/cmd/openevt@latest
 $ openevt --addr 192.168.2.54:14889 --serial-number 31583078
+```
+
+### Docker
+
+```shell
+docker run -e OPENEVT_ADDR=192.168.2.54:14889 -e OPENEVT_SERIALNUMBER=31583078 brandon1024/openevt:latest
 ```
 
 ### Docker Compose
@@ -63,6 +66,8 @@ $ cp .env.sample .env
 $ vi .env  # update OPENEVT_ADDR and OPENEVT_SERIALNUMBER
 $ docker compose up -d
 ```
+
+### Prometheus / Home Assistant Integrations
 
 To read inverter status:
 
@@ -308,4 +313,4 @@ implementation from
 
 ## License
 
-MIT License. Copyright (c) 2025 Brandon Richardson.
+MIT License. Copyright (c) 2025-2026 Brandon Richardson.

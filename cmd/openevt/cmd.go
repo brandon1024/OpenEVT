@@ -15,7 +15,7 @@ import (
 	"github.com/brandon1024/OpenEVT/internal/web"
 )
 
-const desc = `OpenEVT - Envertec EVT400/EVT800 Client
+const desc = `OpenEVT - Open Envertec Inverter Client
 
 OpenEVT is tool that empowers you to directly communicate with your Envertec solar microinverter, giving you complete
 ownership of your solar performance data - without being restricted to the Envertec APIs. OpenEVT connects directly
@@ -54,18 +54,17 @@ var (
 
 var (
 	cmd = &Command{
-		BaseCommand: cmder.BaseCommand{
-			CommandName: "openevt",
-			Usage:       "openevt --addr <addr> --serial-number <num>",
-			ShortHelp:   "Envertec EVT400/EVT800 Client",
-			Help:        desc,
-			Examples:    examples,
+		CommandDocumentation: cmder.CommandDocumentation{
+			Usage:     "openevt --addr <addr> --serial-number <num>",
+			ShortHelp: "Envertec EVT400/EVT800 Client",
+			Help:      desc,
+			Examples:  examples,
 		},
 	}
 )
 
 type Command struct {
-	cmder.BaseCommand
+	cmder.CommandDocumentation
 
 	client evt.Client
 
@@ -75,20 +74,24 @@ type Command struct {
 	reconnectInverval      time.Duration
 }
 
+func (c *Command) Name() string {
+	return "openevt"
+}
+
 func (c *Command) InitializeFlags(fs *flag.FlagSet) {
-	fs.StringVar(&c.client.InverterID, "serial-number", "", "`serial` number of your microinverter (e.g. 31583078)")
+	fs.StringVar(&c.client.InverterID, "serial-number", "", "The `serial` number of your microinverter (e.g. 31583078).")
 	fs.Var(alias(fs.Lookup("serial-number"), "s"))
-	fs.StringVar(&c.client.Address, "addr", "", "`address` and port of the microinverter (e.g. 192.0.2.1:14889)")
+	fs.StringVar(&c.client.Address, "addr", "", "The remote `address` and port of the microinverter (e.g. 192.0.2.1:14889).")
 	fs.Var(alias(fs.Lookup("addr"), "a"))
 
-	fs.DurationVar(&c.client.ReadTimeout, "poll-interval", time.Duration(0), "attempt to poll the inverter status more frequently than advertised")
-	fs.DurationVar(&c.reconnectInverval, "reconnect-interval", time.Minute, "interval between connection attempts (e.g. 1m)")
+	fs.DurationVar(&c.client.ReadTimeout, "poll-interval", time.Duration(0), "Configure a deadline for the inverter to respond to poll messages (e.g. 10s). If zero (0s), no deadline is configured and the client will wait indefinitely. A small deadline will cause the client to poll the inverter more frequently.")
+	fs.DurationVar(&c.reconnectInverval, "reconnect-interval", time.Minute, "Interval between connection attempts (e.g. 1m) when the inverter connection is lost, which typically occurs when the inverter enters low power mode during sundown.")
 
-	fs.StringVar(&c.webListenAddress, "web.listen-address", ":9090", "`address` on which to expose metrics")
-	fs.StringVar(&c.telemetryPath, "web.telemetry-path", "/metrics", "`path` under which to expose metrics")
-	fs.BoolVar(&c.disableExporterMetrics, "web.disable-exporter-metrics", false, "exclude metrics about the exporter itself (go_*)")
+	fs.StringVar(&c.webListenAddress, "web.listen-address", ":9090", "The `address` on which to listen for requests.")
+	fs.StringVar(&c.telemetryPath, "web.telemetry-path", "/metrics", "The `path` under which to expose metrics.")
+	fs.BoolVar(&c.disableExporterMetrics, "web.disable-exporter-metrics", false, "Exclude metrics about the exporter itself (go_*).")
 
-	fs.TextVar(loggerLevel, "log.level", new(slog.LevelVar), "log `level` (e.g. debug, info, warn, error)")
+	fs.TextVar(loggerLevel, "log.level", new(slog.LevelVar), "Application `level` (e.g. DEBUG, INFO, WARN, ERROR).")
 }
 
 func (c *Command) Run(ctx context.Context, args []string) error {
