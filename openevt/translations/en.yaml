@@ -1,0 +1,7 @@
+configuration:
+  address:
+    name: Inverter address
+    description: Scheme + IP or hostname + port of the inverter
+  serial_number:
+    name: Inverter serial number
+    description: Serial number of the inverter to track data for

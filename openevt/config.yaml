@@ -1,0 +1,21 @@
+name: OpenEVT
+version: "1.0.0"
+slug: openevt
+description: >-
+  OpenEVT integration daemon. Connects to an OpenEVT inverter and exposes
+  its data to Home Assistant.
+arch:
+  - amd64
+  - aarch64
+host_network: true
+homeassistant_api: false
+ingress: true
+ingress_port: 9090
+ingress_entry: /inverter
+options:
+  address: ""
+  serial_number: ""
+schema:
+  address: str
+  serial_number: str
+init: false
