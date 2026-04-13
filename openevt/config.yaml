@@ -9,9 +9,6 @@ description: >-
 arch:
   - amd64
   - aarch64
-ingress: true
-ingress_port: 9090
-ingress_entry: /inverter
 ports:
   9090/tcp: 9090
 options:
