@@ -1,7 +1,7 @@
 configuration:
   address:
     name: Inverter address
-    description: Scheme + IP or hostname + port of the inverter
+    description: Address + port of the microinverter (e.g. 192.168.1.99:14889).
   serial_number:
     name: Inverter serial number
-    description: Serial number of the inverter to track data for
+    description: Serial number of the microinverter (e.g. 31583078).

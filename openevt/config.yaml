@@ -2,16 +2,18 @@ name: OpenEVT
 version: "1.0.0"
 slug: openevt
 description: >-
-  OpenEVT integration daemon. Connects to an OpenEVT inverter and exposes
-  its data to Home Assistant.
+  OpenEVT app. Connects to a compatible Envertech inverter and exposes
+  its data to Home Assistant. 
+  See https://github.com/brandon1024/OpenEVT?tab=readme-ov-file#prometheus--home-assistant-integrations
+  for how to integrate it (requires configuration.yaml adjustments).
 arch:
   - amd64
   - aarch64
-host_network: true
-homeassistant_api: false
 ingress: true
 ingress_port: 9090
 ingress_entry: /inverter
+ports:
+  9090/tcp: 9090
 options:
   address: ""
   serial_number: ""
