@@ -14,7 +14,7 @@ import (
 func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 
-	err := cmder.Execute(ctx, cmd, cmder.WithEnvironmentBinding())
+	err := cmder.Execute(ctx, cmd, cmder.WithEnvironmentBinding(), cmder.WithRelaxedFlagParsing())
 	cancel()
 
 	if errors.Is(err, cmder.ErrShowHelp) || errors.Is(err, cmder.ErrShowUsage) {
