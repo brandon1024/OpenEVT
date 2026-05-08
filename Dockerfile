@@ -1,7 +1,7 @@
 ###
 ### Builder Stage
 ###
-FROM docker.io/golang:latest AS builder
+FROM docker.io/golang:1.26.3 AS builder
 
 COPY . .
 RUN CGO_ENABLED=0 go install -ldflags="-s -w" ./cmd/openevt
