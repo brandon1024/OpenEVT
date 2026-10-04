@@ -3,3 +3,5 @@ services:
     build: .
     ports:
       - "9090:9090"
+    env_file:
+      - .env
