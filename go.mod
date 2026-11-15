@@ -2,7 +2,7 @@ module github.com/brandon1024/OpenEVT
 
 go 1.26.0
 
-toolchain go1.27.3
+toolchain go1.27.4
 
 tool (
 	golang.org/x/tools/cmd/goimports
@@ -11,9 +11,9 @@ tool (
 )
 
 require (
-	github.com/brandon1024/cmder v0.0.21
+	github.com/brandon1024/cmder v0.0.22
 	github.com/prometheus/client_golang v1.25.0
-	golang.org/x/sync v0.24.0
+	golang.org/x/sync v0.25.0
 )
 
 require (
